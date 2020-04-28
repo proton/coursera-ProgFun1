@@ -1,2 +1,13 @@
 *.class
 *.log
+
+.cache
+.history
+.idea/
+.lib/
+dist/*
+target/
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/
