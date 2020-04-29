@@ -25,7 +25,15 @@ object RecFun extends RecFunInterface {
    * Exercise 2
    */
   def balance(chars: List[Char]): Boolean = {
-    true
+
+    def balanceCounter(cnt: Int, chars: List[Char]): Boolean =
+      if (cnt < 0) false
+      else if (chars.isEmpty) cnt == 0
+      else if (chars.head == '(') balanceCounter(cnt + 1, chars.tail)
+      else if (chars.head == ')') balanceCounter(cnt - 1, chars.tail)
+      else balanceCounter(cnt, chars.tail)
+
+    balanceCounter(0, chars)
   }
 
   /**
