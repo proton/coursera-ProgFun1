@@ -38,6 +38,9 @@ class FunSetSuite {
     val s1 = singletonSet(1)
     val s2 = singletonSet(2)
     val s3 = singletonSet(3)
+    val s12 = listToSet(List(1, 2))
+    val s23 = listToSet(List(2, 3))
+    val s123 = listToSet(List(1, 2, 3))
   }
 
   /**
@@ -59,6 +62,10 @@ class FunSetSuite {
        * the test fails. This helps identifying which assertion failed.
        */
       assert(contains(s1, 1), "Singleton")
+
+      assert(contains(s12, 1), "Set 1, 2")
+      assert(!contains(s23, 1), "Set 2, 3")
+      assert(contains(s123, 1), "Set 1, 2, 3")
     }
   }
 
@@ -68,6 +75,67 @@ class FunSetSuite {
       assert(contains(s, 1), "Union 1")
       assert(contains(s, 2), "Union 2")
       assert(!contains(s, 3), "Union 3")
+
+      val s123_new = union(s12, s23)
+      assert(contains(s123_new, 1))
+      assert(contains(s123_new, 2))
+      assert(contains(s123_new, 3))
+      assert(!contains(s123_new, 4))
+    }
+  }
+
+  @Test def `intersect tests`: Unit = {
+    new TestSets {
+      val s_int_1_2 = intersect(s1, s2)
+      assert(!contains(s_int_1_2, 1))
+      assert(!contains(s_int_1_2, 2))
+
+      val s_int_12_23 = intersect(s12, s23)
+      assert(!contains(s_int_12_23, 1))
+      assert(contains(s_int_12_23, 2))
+      assert(!contains(s_int_12_23, 3))
+    }
+  }
+
+  @Test def `diff tests`: Unit = {
+    new TestSets {
+      val s_diff_12_23 = diff(s12, s23)
+      assert(contains(s_diff_12_23, 1))
+      assert(!contains(s_diff_12_23, 2))
+      assert(!contains(s_diff_12_23, 3))
+    }
+  }
+
+  @Test def `filter tests`: Unit = {
+    new TestSets {
+      val s_int_1_2 = filter(s1, s2)
+      assert(!contains(s_int_1_2, 1))
+      assert(!contains(s_int_1_2, 2))
+
+      val s_int_12_23 = filter(s12, s23)
+      assert(!contains(s_int_12_23, 1))
+      assert(contains(s_int_12_23, 2))
+      assert(!contains(s_int_12_23, 3))
+    }
+  }
+
+  @Test def `forall tests`: Unit = {
+    new TestSets {
+      assert(forall(s1, (x: Int) => x == 1))
+      assert(!forall(s2, (x: Int) => x == 1))
+      assert(forall(s123, (x: Int) => x == 1))
+    }
+  }
+
+  @Test def `map tests`: Unit = {
+    new TestSets {
+      val s246 = map(s123, (x: Int) => x * 2)
+      assert(!contains(s246, 1))
+      assert(!contains(s246, 2))
+      assert(!contains(s246, 3))
+      assert(contains(s246, 2))
+      assert(contains(s246, 4))
+      assert(contains(s246, 6))
     }
   }
 

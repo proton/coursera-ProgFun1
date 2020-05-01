@@ -19,6 +19,7 @@ trait FunSets extends FunSetsInterface {
    * Returns the set of the one given element.
    */
   def singletonSet(elem: Int): FunSet = (x: Int) => x == elem
+  def listToSet(elems: List[Int]): FunSet = (x: Int) => elems.contains(x)
 
 
   /**
