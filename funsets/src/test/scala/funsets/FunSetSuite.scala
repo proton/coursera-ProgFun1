@@ -129,7 +129,7 @@ class FunSetSuite {
 
   @Test def `map tests`: Unit = {
     new TestSets {
-      val s246 = map(s123, (x: Int) => x * 2)
+      val s246 = map(s123, x => x * 2)
       assert(!contains(s246, 1))
       assert(!contains(s246, 2))
       assert(!contains(s246, 3))
