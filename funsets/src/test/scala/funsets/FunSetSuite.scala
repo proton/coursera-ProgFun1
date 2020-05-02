@@ -139,6 +139,62 @@ class FunSetSuite {
     }
   }
 
+//  tests from https://gist.github.com/santiagovazquez/c59fed8ad62df97189a1
+
+  @Test def `filter of {1,3,4,5,7,1000} for _ < 5`: Unit = {
+    val mySet = (x: Int) => List(1,3,4,5,7,1000).contains(x)
+
+    val myTestSet = filter(mySet, (x) => x < 5)
+
+    assert(contains(myTestSet, 1), "contains 1")
+    assert(contains(myTestSet, 3), "contains 3")
+    assert(contains(myTestSet, 4), "contains 4")
+    assert(!contains(myTestSet, 5), "contains 5")
+    assert(!contains(myTestSet, 7), "contains 7")
+    assert(!contains(myTestSet, 1000), "contains 1000")
+  }
+
+  @Test def `forall: {1,2,3,4}`: Unit = {
+    val mySet = (x: Int) => List(1,2,3,4).contains(x)
+
+    assert(forall(mySet, (x) => x < 5), "All elements in the set are strictly less than 5.")
+  }
+
+  @Test def `forall: {-1000,0}`: Unit = {
+    val mySet = (x: Int) => List(-1000,0).contains(x)
+
+    assert(forall(mySet, (x) => x < 1000), "All elements in the set are strictly less than 1000.")
+  }
+
+  @Test def `forall & filter: even.`: Unit = {
+    val evenNumbersSet = (x: Int) => x % 2 == 0
+
+    assert(forall(evenNumbersSet, (x) => x % 2 ==0), "The set of all even numbers should contain only even numbers")
+  }
+
+
+  @Test def `exist: {1,2,3,4}`: Unit = {
+    val mySet = (x: Int) => List(1,2,3,4).contains(x)
+
+    assert(exists(mySet, (x) => x == 2), "the set contains at least a two")
+  }
+
+  @Test def `map: {1,3,4,5,7,1000}`: Unit = {
+    val mySet = (x:Int) => List(1,3,4,5,7,1000).contains(x)
+    val subOneSet = map(mySet, (x) => x - 1)
+    val resultSet = (x: Int) => List(0,2,3,4,6,999).contains(x)
+
+    assert(forall(subOneSet, (x: Int) => List(0,2,3,4,6,999).contains(x)), "{[2,4,5,6,8]} did not equal {[0,2,3,4,6,999]}")
+    assert(contains(subOneSet, 999), "should contains 999")
+
+  }
+
+  @Test def `forall & map: doubling numbers`: Unit = {
+    val evenNumbersSet = (x: Int) => x % 2 == 0
+
+    assert(forall(map(evenNumbersSet, (x) => x * 2), evenNumbersSet), "The set obtained by doubling all numbers should contain only even numbers.")
+  }
+
 
 
   @Rule def individualTestTimeout = new org.junit.rules.Timeout(10 * 1000)
