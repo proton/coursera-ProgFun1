@@ -149,7 +149,7 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
 
   def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet = {
     def subAcc = if ( p(elem) ) acc.incl(elem) else acc
-    left.filterAcc(p, subAcc)
+    right.filterAcc(p, subAcc)
   }
 
   def union(that: TweetSet): TweetSet = {
