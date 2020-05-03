@@ -68,6 +68,17 @@ abstract class TweetSet extends TweetSetInterface {
   def union(that: TweetSet): TweetSet
 
   /**
+   * Returns the tweet from this set which has the greatest retweet count.
+   *
+   * Calling `mostRetweeted` on an empty set should throw an exception of
+   * type `java.util.NoSuchElementException`.
+   *
+   * Question: Should we implment this method here, or should it remain abstract
+   * and be implemented in the subclasses?
+   */
+  def mostRetweeted: Tweet
+
+  /**
    * Returns a list containing all tweets of this set, sorted by retweet count
    * in descending order. In other words, the head of the resulting list should
    * have the highest retweet count.
@@ -143,15 +154,6 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
     left.union(right).union(that).incl(elem)
   }
 
-  /**
-   * Returns the tweet from this set which has the greatest retweet count.
-   *
-   * Calling `mostRetweeted` on an empty set should throw an exception of
-   * type `java.util.NoSuchElementException`.
-   *
-   * Question: Should we implment this method here, or should it remain abstract
-   * and be implemented in the subclasses?
-   */
   def mostRetweeted: Tweet = {
     if (left.isEmpty && right.isEmpty) elem
     else if (left.isEmpty) elem.maxRetweeted(right.mostRetweeted)
