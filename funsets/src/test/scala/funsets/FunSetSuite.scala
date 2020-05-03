@@ -123,7 +123,8 @@ class FunSetSuite {
     new TestSets {
       assert(forall(s1, (x: Int) => x == 1))
       assert(!forall(s2, (x: Int) => x == 1))
-      assert(forall(s123, (x: Int) => x == 1))
+      assert(!forall(s12, (x: Int) => x == 1))
+      assert(forall(s12, (x: Int) => x == 1 || x == 2))
     }
   }
 
@@ -131,7 +132,7 @@ class FunSetSuite {
     new TestSets {
       val s246 = map(s123, x => x * 2)
       assert(!contains(s246, 1))
-      assert(!contains(s246, 2))
+      assert(contains(s246, 2))
       assert(!contains(s246, 3))
       assert(contains(s246, 2))
       assert(contains(s246, 4))
