@@ -106,7 +106,11 @@ object Anagrams extends AnagramsInterface {
     }}
 
     generateCombinations(occurrencesVariety)
-      .map { l => l.filter(_._2 > 0) }
+      .map { cleanZeroOccurrences }
+  }
+
+  def cleanZeroOccurrences(occurrences: Occurrences): Occurrences = {
+    occurrences.filter(_._2 > 0)
   }
 
   /** Subtracts occurrence list `y` from occurrence list `x`.
@@ -119,7 +123,22 @@ object Anagrams extends AnagramsInterface {
    *  Note: the resulting value is an occurrence - meaning it is sorted
    *  and has no zero-entries.
    */
-  def subtract(x: Occurrences, y: Occurrences): Occurrences = ???
+  def subtract(x: Occurrences, y: Occurrences): Occurrences = {
+    val yMap = OccurrencesMap(y)
+    def r = x.map { occurrency => {
+      val yCnt = yMap.getOrElse(occurrency._1, 0)
+      val cnt = occurrency._2 - yCnt
+      (occurrency._1, cnt)
+    }}
+    cleanZeroOccurrences(r)
+  }
+
+  def OccurrencesMap(list: Occurrences): Map[Char, Int] = {
+    list
+      .groupBy(_._1)
+      .mapValues(_.map(_._2).head)
+      .toMap
+  }
 
   /** Returns a list of all anagram sentences of the given sentence.
    *
