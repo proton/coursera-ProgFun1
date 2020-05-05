@@ -123,10 +123,10 @@ trait Huffman extends HuffmanInterface {
    * code trees contains only one single tree, and then return that singleton list.
    */
   def until(done: List[CodeTree] => Boolean, merge: List[CodeTree] => List[CodeTree])(trees: List[CodeTree]): List[CodeTree] = {
-    if (singleton(trees))
+    if (done(trees))
       trees
     else
-      until(singleton, combine)(trees)
+      until(done, merge)(merge(trees))
   }
 
   /**
