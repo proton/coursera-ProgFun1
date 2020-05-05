@@ -125,11 +125,12 @@ object Anagrams extends AnagramsInterface {
    */
   def subtract(x: Occurrences, y: Occurrences): Occurrences = {
     val yMap = OccurrencesMap(y)
-    def r = x.map { occurrency => {
-      val yCnt = yMap.getOrElse(occurrency._1, 0)
-      val cnt = occurrency._2 - yCnt
-      (occurrency._1, cnt)
+
+    def r = x.map { case(char, xCnt) => {
+      val yCnt = yMap.getOrElse(char, 0)
+      (char, xCnt - yCnt)
     }}
+
     cleanZeroOccurrences(r)
   }
 
